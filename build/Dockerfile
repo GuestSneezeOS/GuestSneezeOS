@@ -1,4 +1,5 @@
 FROM archlinux:latest
+#FROM ekultails/steamos:latest
 
 ENV OUTPUT_DIR /output
 
