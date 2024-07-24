@@ -265,6 +265,16 @@ echo "Installing Arch Linux installation tools on the live media..."
 echo "Installing Arch Linux installation tools on the live media complete."
 
 
+if [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+    if [[ "${WINESAPOS_DISTRO_DETECTED}" != "steamos" ]]; then
+        echo "Enabling SteamOS package repositories on Arch Linux distributions..."
+        echo '\n[jupiter-rel]\nServer = https://steamdeck-packages.steamos.cloud/archlinux-mirror/$repo/os/$arch\nSigLevel = Never\n\n' >> /etc/pacman.conf
+        echo '\n[holo-rel]\nServer = https://steamdeck-packages.steamos.cloud/archlinux-mirror/$repo/os/$arch\nSigLevel = Never\n\n' >> /etc/pacman.conf
+        pacman -S -y -y
+        echo "Enabling SteamOS package repositories on Arch Linux distributions complete."
+    fi
+fi
+
 echo "Installing ${WINESAPOS_DISTRO}..."
 
 pacstrap -i ${WINESAPOS_INSTALL_DIR} base base-devel curl fwupd --noconfirm
