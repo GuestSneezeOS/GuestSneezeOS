@@ -1,6 +1,6 @@
 # GuestSneezeOS winesapOS edition
 
-***Game with Linux anywhere, no installation required!***
+***Game with Linux anywhere, no installation required! (partially made so I can use the winesapOS installer instead of Rebulding it)*** 
 
 - ![Image build status for Arch Linux](https://github.com/LukeShortCloud/winesapOS/actions/workflows/image-arch-linux.yml/badge.svg)
 - ![Image build status for Manjaro](https://github.com/LukeShortCloud/winesapOS/actions/workflows/image-manjaro.yml/badge.svg)
@@ -10,7 +10,7 @@
 
 GuestSneezeOS (winesapOS Flavour) makes it easy to setup Linux and play games off an internal or portable external drive.
 
-Why use GuestSneezeOS (winesapOS Flavour)?
+Why use  (winesapOS Flavour)?
 
 - Portable. Useful for gaming or recovery purposes while traveling.
 - Enhanced hardware support for Apple Macs with Intel processors, ASUS laptops, AYANEO handhelds, Framework computers, Microsoft Surface laptops, OneXPlayer handhelds, and Valve Steam Deck handhelds.
@@ -342,7 +342,9 @@ We are actively working alongside these operating system projects to help provid
 
 - [Batocera](https://batocera.org/)
 - [ChimeraOS](https://chimeraos.org/)
-- [GuestSneezeOS](https://github.com/GuestSneezeOS-Official/GuestSneezeOS)
+- [GuestSneezeOS](https://github.com/GuestSneezeOS/GuestSneezeOS) (Arch-based)
+- [HoloISO](https://github.com/HoloISO/)
+- [winesapOS](https://github.com/LukeShortCloud/winesapOS/)
 - [PlaytronOS](https://www.playtron.one/)
 
 ### winesapOS Repository
