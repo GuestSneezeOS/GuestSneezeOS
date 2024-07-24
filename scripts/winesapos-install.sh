@@ -662,6 +662,19 @@ SigLevel = Never" >> ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
 
     if [[ "${WINESAPOS_DISABLE_KERNEL_UPDATES}" == "true" ]]; then
         echo "Setting up Pacman to disable Linux kernel updates..."
+            
+            else
+
+        if [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+            # SteamOS ships heavily modified version of the Linux LTS packages that do not work with upstream GRUB.
+            # Even if WINESAPOS_DISABLE_KERNEL_UPDATES=false, we cannot risk breaking a system if users rely on Linux LTS for their system to boot.
+            # The real solution is for Pacman to support ignoring specific packages from specific repositories:
+            # https://bugs.archlinux.org/task/20361
+            if [[ "${WINESAPOS_DISTRO_DETECTED}" == "steamos" ]]; then
+                chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-lts linux-lts-headers linux-firmware-neptune linux-firmware-neptune-rtw-debug grub filesystem"
+            fi
+        fi
+
 
         if [[ "${WINESAPOS_DISTRO}" == "manjaro" ]]; then
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux66 linux66-headers linux-fsync-nobara-bin filesystem"
