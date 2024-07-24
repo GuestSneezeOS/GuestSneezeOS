@@ -1,4 +1,4 @@
-name: winesapOS image build with Arch Linux
+name: GuestSneezeOS image build with Arch Linux
 on:
   push:
     branches-ignore:
