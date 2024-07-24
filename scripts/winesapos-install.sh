@@ -290,10 +290,13 @@ fi
 
 echo "Adding the winesapOS repository..."
 if [[ "${WINESAPOS_ENABLE_TESTING_REPO}" == "false" ]]; then
+    if [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+        sed -i s'/\[jupiter-rel]/[winesapos]\nServer = https:\/\/winesapos.lukeshort.cloud\/repo\/$repo\/$arch\n\n[jupiter-rel]/'g ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
+    else
+        sed -i s'/\[core]/[winesapos]\nServer = https:\/\/winesapos.lukeshort.cloud\/repo\/$repo\/$arch\n\n[core]/'g ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
+    fi
     sed -i s'/\[core]/[winesapos]\nServer = http:\/\/winesapos.lukeshort.cloud\/repo\/$repo\/$arch\n\n[core]/'g ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
-else
-    sed -i s'/\[core]/[winesapos-testing]\nServer = http:\/\/winesapos.lukeshort.cloud\/repo\/$repo\/$arch\nSigLevel = Never\n\n[core]/'g ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
-fi
+    fi
 
 # DNS resolvers need to be configured first before accessing the GPG key server.
 echo -e "nameserver 8.8.8.8\nnameserver 1.1.1.1" > ${WINESAPOS_INSTALL_DIR}/etc/resolv.conf
@@ -449,26 +452,48 @@ echo 'MAKEFLAGS="-j $(nproc)"' >> ${WINESAPOS_INSTALL_DIR}/etc/makepkg.conf
 wget https://pkgbuild.com/~morganamilo/pacman-static/x86_64/bin/pacman-static -LO ${WINESAPOS_INSTALL_DIR}/usr/local/bin/pacman-static
 chmod +x ${WINESAPOS_INSTALL_DIR}/usr/local/bin/pacman-static
 
-pacman_install_chroot \
-  mesa \
-  libva-mesa-driver \
-  mesa-vdpau \
-  opencl-rusticl-mesa \
-  vulkan-intel \
-  vulkan-mesa-layers \
-  vulkan-nouveau \
-  vulkan-radeon \
-  vulkan-swrast \
-  lib32-mesa \
-  lib32-libva-mesa-driver \
-  lib32-mesa-vdpau \
-  lib32-vulkan-nouveau \
-  lib32-opencl-rusticl-mesa \
-  lib32-vulkan-intel \
-  lib32-vulkan-mesa-layers \
-  lib32-vulkan-radeon \
-  lib32-vulkan-swrast
 
+
+if [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+    # Install 'mesa-steamos' and 'lib32-mesa-steamos' graphics driver before 'flatpak'.
+    # This avoid the 'flatpak' package from installing the conflicting upstream 'mesa' package.
+    pacman_install_chroot \
+      mesa-steamos \
+      libva-mesa-driver-steamos \
+      mesa-vdpau-steamos \
+      opencl-mesa-steamos \
+      vulkan-intel-steamos \
+      vulkan-mesa-layers-steamos \
+      vulkan-radeon-steamos \
+      vulkan-swrast-steamos \
+      lib32-mesa-steamos \
+      lib32-libva-mesa-driver-steamos \
+      lib32-mesa-vdpau-steamos \
+      lib32-opencl-mesa-steamos \
+      lib32-vulkan-intel-steamos \
+      lib32-vulkan-mesa-layers-steamos \
+      lib32-vulkan-radeon-steamos \
+      lib32-vulkan-swrast-steamos
+else
+    pacman_install_chroot \
+      mesa \
+      libva-mesa-driver \
+      mesa-vdpau \
+      opencl-rusticl-mesa \
+      vulkan-intel \
+      vulkan-mesa-layers \
+      vulkan-radeon \
+      vulkan-swrast \
+      lib32-mesa \
+      lib32-libva-mesa-driver \
+      lib32-mesa-vdpau \
+      lib32-opencl-rusticl-mesa \
+      lib32-vulkan-intel \
+      lib32-vulkan-mesa-layers \
+      lib32-vulkan-radeon \
+      lib32-vulkan-swrast \
+      xf86-video-nouveau
+fi
 echo "
 options radeon si_support=0
 options radeon cik_support=0
@@ -619,8 +644,21 @@ SigLevel = Never" >> ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
     if [[ "${WINESAPOS_DISTRO_DETECTED}" == "manjaro" ]]; then
         pacman_install_chroot linux66 linux66-headers
     else
-        pacman_install_chroot core/linux-lts core/linux-lts-headers
-    fi
+           # The SteamOS repository 'holo-rel' also provides heavily modified versions of these packages that do not work.
+        # Those packages use a non-standard location for the kernel and modules.
+        if [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+            yay_install_chroot linux-steamos linux-steamos-headers
+        elif [[ "${WINESAPOS_DISTRO}" == "arch" ]]; then
+            pacman_install_chroot core/linux-lts core/linux-lts-headers
+        fi
+                # On SteamOS, also avoid the 'jupiter-rel/linux-firmware-neptune' package as it will replace 'core/linux-firmware' and only has drivers for the Steam Deck.
+        elif [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+            if [[ "${WINESAPOS_DISTRO_DETECTED}" == "steamos" ]]; then
+                # Also void 'holo-rel/grub' becauase SteamOS has a heavily modified version of GRUB for their A/B partitions compared to the vanilla 'core/grub' package.
+                chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-t2 linux-t2-headers linux-steamos linux-steamos-headers linux-firmware-neptune linux-firmware-neptune-rtw-debug grub filesystem"
+            else
+                chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-t2 linux-t2-headers linux-steamos linux-steamos-headers linux-firmware-neptune linux-firmware-neptune-rtw-debug filesystem"
+            fi
 
     if [[ "${WINESAPOS_DISABLE_KERNEL_UPDATES}" == "true" ]]; then
         echo "Setting up Pacman to disable Linux kernel updates..."
