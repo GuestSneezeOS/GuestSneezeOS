@@ -617,8 +617,20 @@ SigLevel = Never" >> ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
 
         if [[ "${WINESAPOS_DISTRO}" == "manjaro" ]]; then
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux66 linux66-headers linux-fsync-nobara-bin filesystem"
-        elif [["$WINESAPOS_DISTRO" == "steamos"]]; then
-            chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-lts linux-lts-headers linux-fsync-nobara-bin filesystem"
+       elif [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
+    pacstrap -i ${WINESAPOS_INSTALL_DIR} holo-rel/filesystem base base-devel wget --noconfirm
+
+    # After the 'holo-rel/filesystem' package has been installed,
+    # we can mount the UEFI file system.
+    if [[ "${WINESAPOS_ENABLE_PORTABLE_STORAGE}" == "true" ]]; then
+        mount -t vfat ${DEVICE_WITH_PARTITION}3 ${WINESAPOS_INSTALL_DIR}/efi
+    else
+        mount -t vfat ${DEVICE_WITH_PARTITION}2 ${WINESAPOS_INSTALL_DIR}/efi
+    fi
+
+    rm -f ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
+    cp ../files/etc-pacman.conf_steamos ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
+    
         elif [[ "${WINESAPOS_DISTRO}" == "arch" ]]; then
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-lts linux-lts-headers linux-fsync-nobara-bin filesystem"
         fi
