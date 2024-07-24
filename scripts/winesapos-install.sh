@@ -359,9 +359,9 @@ chroot ${WINESAPOS_INSTALL_DIR} locale-gen
 # Example output: LANG=en_US.UTF-8
 echo "LANG=$(echo ${WINESAPOS_LOCALE} | cut -d' ' -f1)" > ${WINESAPOS_INSTALL_DIR}/etc/locale.conf
 # Hostname.
-echo winesapos > ${WINESAPOS_INSTALL_DIR}/etc/hostname
+echo guestsneezeos > ${WINESAPOS_INSTALL_DIR}/etc/hostname
 ## This is not a typo. The IPv4 address should '127.0.1.1' instead of '127.0.0.1' to work with systemd.
-echo "127.0.1.1    winesapos" >> ${WINESAPOS_INSTALL_DIR}/etc/hosts
+echo "127.0.1.1    guestsneezeos" >> ${WINESAPOS_INSTALL_DIR}/etc/hosts
 ## This package provides the 'hostname' command along with other useful network utilities.
 pacman_install_chroot inetutils
 # Install fingerprint scanning support.
@@ -617,6 +617,8 @@ SigLevel = Never" >> ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
 
         if [[ "${WINESAPOS_DISTRO}" == "manjaro" ]]; then
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux66 linux66-headers linux-fsync-nobara-bin filesystem"
+        elif [["$WINESAPOS_DISTRO" == "steamos"]]; then
+            chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-lts linux-lts-headers linux-fsync-nobara-bin filesystem"
         elif [[ "${WINESAPOS_DISTRO}" == "arch" ]]; then
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux-lts linux-lts-headers linux-fsync-nobara-bin filesystem"
         fi
@@ -796,6 +798,8 @@ elif [[ "${WINESAPOS_DE}" == "plasma" ]]; then
     chroot ${WINESAPOS_INSTALL_DIR} crudini --ini-options=nospace --set /etc/xdg/konsolerc "Desktop Entry" DefaultProfile Vapor.profile
     # Image gallery and text editor.
     pacman_install_chroot gwenview kate
+     # Install SteamOS theme
+    yay_install_chroot plasma5-themes-vapor-steamos
 
     if [[ "${WINESAPOS_DISTRO_DETECTED}" == "manjaro" ]]; then
         pacman_install_chroot manjaro-kde-settings manjaro-settings-manager-knotifier
@@ -897,8 +901,7 @@ if [[ "${WINESAPOS_INSTALL_GAMING_TOOLS}" == "true" ]]; then
     yay_install_chroot zerotier-gui-git
     # game-devices-udev for more controller support.
     yay_install_chroot game-devices-udev
-    # Install SteamOS theme
-    yay_install_chroot plasma5-themes-vapor-steamos
+
     EMUDECK_GITHUB_URL="https://api.github.com/repos/EmuDeck/emudeck-electron/releases/latest"
     EMUDECK_URL="$(curl -s ${EMUDECK_GITHUB_URL} | grep -E 'browser_download_url.*AppImage' | cut -d '"' -f 4)"
     wget "${EMUDECK_URL}" -O ${WINESAPOS_INSTALL_DIR}/home/${WINESAPOS_USER_NAME}/Desktop/EmuDeck.AppImage
