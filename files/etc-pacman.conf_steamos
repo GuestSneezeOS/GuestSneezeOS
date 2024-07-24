@@ -1,0 +1,27 @@
+[options]
+HoldPkg = pacman glibc filesystem
+Architecture = auto
+CheckSpace
+ParallelDownloads = 5
+SigLevel = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[jupiter-main]
+Server = https://steamdeck-packages.steamos.cloud/archlinux-mirror/$repo/os/$arch
+SigLevel = Never
+
+[holo]
+Server = https://steamdeck-packages.steamos.cloud/archlinux-mirror/$repo/os/$arch
+SigLevel = Never
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[mutlilib]
+Include = /etc/pacman.d/mirrorlist
