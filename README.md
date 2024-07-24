@@ -10,7 +10,7 @@
 
 GuestSneezeOS (winesapOS Flavour) makes it easy to setup Linux and play games off an internal or portable external drive.
 
-Why use  (winesapOS Flavour)?
+Why use The GuestSneezeOS winesapOS flavour?
 
 - Portable. Useful for gaming or recovery purposes while traveling.
 - Enhanced hardware support for Apple Macs with Intel processors, ASUS laptops, AYANEO handhelds, Framework computers, Microsoft Surface laptops, OneXPlayer handhelds, and Valve Steam Deck handhelds.
@@ -762,7 +762,7 @@ Here is how to upgrade winesapOS:
 
 - Open `Terminator`.
 - Run a major upgrade of winesapOS.
-    - Mac Linux Gaming Stick 2 to winesapOS 4:
+    - Mac Linux Gaming Stick 2 to GuestSneezeOS 8:
         ```
         echo stick > /tmp/winesapos_user_name.txt
         export WINESAPOS_UPGRADE_FILES=false
@@ -773,7 +773,7 @@ Here is how to upgrade winesapOS:
         - GUI = Launch the "winesapOS Upgrade" desktop shortcut.
         - CLI:
             ```
-            curl https://raw.githubusercontent.com/LukeShortCloud/winesapOS/stable/scripts/winesapos-upgrade.sh | sudo -E bash
+            curl https://raw.githubusercontent.com/GuestSneezeOS/GuestSneezeOS-winesap/main/scripts/winesapos-upgrade.sh | sudo -E bash
             ```
 
 ### Uninstall
