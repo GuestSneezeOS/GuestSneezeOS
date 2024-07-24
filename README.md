@@ -1,4 +1,4 @@
-# winesapOS <img src="https://user-images.githubusercontent.com/10150374/158224898-bdb4ad3a-ad09-478c-a09d-d313feeb8713.png" width=15% height=15%>
+# GuestSneezeOS winesapOS edition
 
 ***Game with Linux anywhere, no installation required!***
 
@@ -8,14 +8,14 @@
 
 ![winesapOS_Desktop_Screenshot 720p](https://github.com/LukeShortCloud/winesapOS/assets/10150374/10f43f3c-779a-4cf2-9485-603b2ece5b0f)
 
-winesapOS makes it easy to setup Linux and play games off an internal or portable external drive.
+GuestSneezeOS (winesapOS Flavour) makes it easy to setup Linux and play games off an internal or portable external drive.
 
-Why use winesapOS?
+Why use GuestSneezeOS (winesapOS Flavour)?
 
 - Portable. Useful for gaming or recovery purposes while traveling.
 - Enhanced hardware support for Apple Macs with Intel processors, ASUS laptops, AYANEO handhelds, Framework computers, Microsoft Surface laptops, OneXPlayer handhelds, and Valve Steam Deck handhelds.
 - Upgrades are fully automated and supported for minor and major versions.
-- All of the features of winesapOS are listed [here](#features).
+- All of the features of GuestSneezeOS (winesapOS Flavour) are listed [here](#features).
 
 Release images can be downloaded [here](https://github.com/LukeShortCloud/winesapOS/releases).
 
@@ -25,11 +25,11 @@ Project goals:
 - **Upstream.** Stay as vanilla and upstream as possible.
 - **Portability.** Be the most portable x86 operating system.
 
-Want to help support our work? Consider helping out with open feature and bug [GitHub issues](https://github.com/LukeShortCloud/winesapOS/issues). Our [CONTRIBUTING.md](CONTRIBUTING.md) guide provides all of the information you need to get started as a winesapOS contributor.
+Want to help support our work? Consider helping out with open feature and bug [GitHub issues](https://github.com/LukeShortCloud/winesapOS/issues). Our [CONTRIBUTING.md](CONTRIBUTING.md) guide provides all of the information you need to get started as a GuestSneezeOS (winesapOS Flavour) contributor.
 
 **TABLE OF CONTENTS**
 
-* [winesapOS](#winesapos)
+* [winesapOS](#GuestSneezeOS-winesapos-edition)
    * [macOS Limitations](#macos-limitations)
    * [Features](#features)
        * [General](#general)
