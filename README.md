@@ -1,4 +1,4 @@
-# GuestSneezeOS winesapOS edition
+# GuestSneezeOS
 
 ***Game with Linux anywhere, no installation required! (partially made so I can use the winesapOS installer instead of Rebulding it)*** 
 
