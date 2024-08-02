@@ -76,6 +76,8 @@ makepkg_fn ssdfs-tools
 makepkg_fn snapd install
 # 'bauh' is now provided by the Chaotic repository.
 #makepkg_fn bauh
+# Cosmic DE Support
+makepkg_fn cosmic-session-git
 
 # 'gamescope-session-git' is a build dependency of 'gamescope-session-steam-git' and 'opengamepadui-session-git'.
 makepkg_fn gamescope-session-git install
