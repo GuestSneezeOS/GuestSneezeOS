@@ -59,6 +59,8 @@ makepkg_fn gfs2-utils
 makepkg_fn linux-apfs-rw-dkms-git
 makepkg_fn linux-firmware-asus
 makepkg_fn linux-firmware-valve
+# me and @LukeShortCloud have been talking about fan control and he found this chaotic package which can cool your pc down
+makepkg_fn coolercontrol
 # Add SteamOS Support
 makepkg_fn mesa-steamos
 makepkg_fn lib32-mesa-steamos
