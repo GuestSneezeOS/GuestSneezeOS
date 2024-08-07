@@ -1,0 +1,9 @@
+NAME="guestsneezeos"
+PRETTY_NAME="GuestSneezeOS"
+ID=guestsneezeos
+ID_LIKE=arch
+VERSION="1.0.0-beta1"
+VERSION_ID=1.0.0-beta1
+HOME_URL="https://github.com/GuestSneezeOS/GuestSneezeOS"
+SUPPORT_URL="https://github.com/GuestSneezeOS/GuestSneezeOS/issues"
+BUG_REPORT_URL="https://github.com/GuestSneezeOS/GuestSneezeOS/issues"
