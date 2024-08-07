@@ -216,13 +216,8 @@ if [[ "${WINESAPOS_BUILD_CHROOT_ONLY}" == "false" ]]; then
 fi
 
 echo "Setting up fastest pacman mirror on live media..."
-
 if [[ "${WINESAPOS_SINGLE_MIRROR}" == "true" ]]; then
-    if [[ "${WINESAPOS_DISTRO_DETECTED}" == "manjaro" ]]; then
-        echo "Server = ${WINESAPOS_SINGLE_MIRROR_URL}/manjaro/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-    elif [[ "${WINESAPOS_DISTRO_DETECTED}" == "arch" ]]; then
-        echo "Server = ${WINESAPOS_SINGLE_MIRROR_URL}/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-    fi
+  echo "Server = ${WINESAPOS_SINGLE_MIRROR_URL}/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 fi
 
 pacman -S -y --noconfirm
@@ -605,7 +600,7 @@ if [[ "${WINESAPOS_INSTALL_PRODUCTIVITY_TOOLS}" == "true" ]]; then
     echo "Installing additional packages complete."
 
     echo "Installing additional packages from the AUR..."
-    yay_install_chroot qdirstat
+yay_install_chroot coolercontrol qdirstat
     echo "Installing additional packages from the AUR complete."
 
 else
@@ -680,7 +675,7 @@ SigLevel = Never" >> ${WINESAPOS_INSTALL_DIR}/etc/pacman.conf
             chroot ${WINESAPOS_INSTALL_DIR} crudini --set /etc/pacman.conf options IgnorePkg "linux66 linux66-headers linux-fsync-nobara-bin filesystem"
        elif [[ "${WINESAPOS_DISTRO}" == "steamos" ]]; then
     pacstrap -i ${WINESAPOS_INSTALL_DIR} holo-rel/filesystem base base-devel wget --noconfirm
-
+    
     # After the 'holo-rel/filesystem' package has been installed,
     # we can mount the UEFI file system.
     if [[ "${WINESAPOS_ENABLE_PORTABLE_STORAGE}" == "true" ]]; then
@@ -751,7 +746,9 @@ pacman_install_chroot f2fs-tools
 echo "FAT12, FAT16, and FAT32"
 pacman_install_chroot dosfstools mtools
 echo "FATX16 and FATX32"
+# Tempoarily Disable FATX
 #yay_install_chroot fatx
+chroot ${WINESAPOS_INSTALL_DIR} pacman -U --noconfirm  --config <(echo -e "[options]\nArchitecture = auto\nSigLevel = Never\n") https://winesapos.lukeshort.cloud/repo/winesapos-4.0.0/x86_64/fatx-1.15-4-any.pkg.tar.zst
 echo "GFS2"
 yay_install_chroot gfs2-utils
 echo "GlusterFS"
@@ -911,7 +908,7 @@ elif [[ "${WINESAPOS_DE}" == "plasma" ]]; then
     else
         mv ${WINESAPOS_INSTALL_DIR}/usr/share/wayland-sessions/plasma.desktop ${WINESAPOS_INSTALL_DIR}/usr/share/wayland-sessions/0plasma.desktop
     fi
-
+    pacman_install_chroot kdeconnect
     echo "Installing the KDE Plasma desktop environment complete."
 fi
 
