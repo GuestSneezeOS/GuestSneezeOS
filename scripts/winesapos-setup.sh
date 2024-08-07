@@ -1,18 +1,21 @@
 #!/bin/bash
 
+WINESAPOS_IMAGE_TYPE="$(grep VARIANT_ID /usr/lib/os-release-winesapos | cut -d = -f 2)"
 # The secure image requires that the "sudo" password be provided for the "winesap" user.
 # This password is also required to be reset during the first login so it is unknown.
 # Prompt the user to enter in their password.
 # On other image types, they do not require a password to run "sudo" commands so using
 # the command "sudo -S" to read the password from standard input still works as expected.
-while true;
-    do user_pw=$(kdialog --title "GuestSneezeOS First-Time Setup" --password 'Please enter your password (default: "winesap") to start the first-time setup.')
-    echo ${user_pw} | sudo -S whoami
-    if [ $? -eq 0 ]; then
-        # Break out of the "while" loop if the password works with the "sudo -S" command.
-        break 2
-    fi
-done
+if [[ "${WINESAPOS_IMAGE_TYPE}" == "secure" ]]; then
+    while true;
+        do user_pw=$(kdialog --title "GuestSneezeOSDev First-Time Setup" --password 'Please enter your password (default: "winesap") to start the first-time setup.')
+        echo ${user_pw} | sudo -S whoami
+        if [ $? -eq 0 ]; then
+            # Break out of the "while" loop if the password works with the "sudo -S" command.
+            break 2
+        fi
+    done
+fi
 
 # Enable shell debugging.
 set -x
